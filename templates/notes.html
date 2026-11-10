@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Notes</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: white;
+            background: linear-gradient(135deg, #080d27, #251044, #073b48);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #5eead4;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #d1d5db;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .notes-card {
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .notes-card h2 {
+            margin-bottom: 12px;
+            color: #5eead4;
+            font-size: 21px;
+        }
+
+        .notes-card p {
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #5eead4;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📝 Learning Notes</h1>
+        <p class="subtitle">
+            Revise important concepts and prepare for your career.
+        </p>
+
+        <div class="notes-card">
+            <h2>
+    <a href="{{ url_for('python_notes') }}" style="color:#5eead4; text-decoration:none;">
+        🐍 Python Programming
+    </a>
+</h2>
+            <p>Learn variables, data types, conditions, loops, functions and lists.</p>
+        </div>
+
+        <div class="notes-card">
+            <h2>🗄️ SQL & Databases</h2>
+            <p>Study SELECT, WHERE, GROUP BY, JOIN, subqueries and database basics.</p>
+        </div>
+
+        <div class="notes-card">
+            <h2>📊 Data Analytics</h2>
+            <p>Understand data cleaning, Excel, statistics, charts and Power BI.</p>
+        </div>
+
+        <div class="notes-card">
+            <h2>🤖 Machine Learning</h2>
+            <p>Revise supervised learning, classification, regression and model evaluation.</p>
+        </div>
+
+        <a class="back-link" href="{{ url_for('courses') }}">
+            ← Back to Courses
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | AI Career</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --cyan: #39f5ff;
+    --purple: #d946ef;
+    --muted: #9aaabe;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 25px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #eafaff;
+    background: radial-gradient(
+        ellipse at center,
+        #142b3d 0%, #091521 55%, #030810 100%
+    );
+}
+
+/* Animated neon circle */
+.neon-circle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: min(760px, 95vw);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border: 3px solid transparent;
+    border-radius: 50%;
+    background:
+        linear-gradient(#08131f, #08131f) padding-box,
+        conic-gradient(
+            from 0deg,
+            var(--cyan),
+            #178bff,
+            var(--purple),
+            #247dff,
+            var(--cyan)
+        ) border-box;
+    box-shadow:
+        0 0 12px rgba(57, 245, 255, 0.65),
+        0 0 38px rgba(57, 245, 255, 0.32),
+        0 0 75px rgba(66, 165, 255, 0.18);
+    animation: rotateGlow 14s linear infinite,
+               breathe 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes rotateGlow {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes breathe {
+    0%, 100% { filter: brightness(.9); }
+    50% { filter: brightness(1.3); }
+}
+
+/* No separate rectangular box */
+.register-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 470px;
+    padding: 24px 28px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    animation: slideUp .8s ease both;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 25px;
+    background: rgba(57, 245, 255, .08);
+    border: 1px solid rgba(57, 245, 255, .45);
+    box-shadow: 0 0 20px rgba(57, 245, 255, .15);
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 27px;
+    letter-spacing: 2px;
+    color: var(--cyan);
+    text-shadow: 0 0 16px rgba(57, 245, 255, .5);
+}
+
+.subtitle {
+    margin: 8px 0 18px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+label {
+    display: block;
+    margin: 11px 0 6px;
+    color: #dce9f6;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 11px 17px;
+    border: 1px solid rgba(120, 160, 190, .2);
+    border-radius: 28px;
+    outline: none;
+    color: white;
+    background: rgba(1, 9, 17, .92);
+    font-size: 14px;
+    transition: border-color .3s, box-shadow .3s;
+}
+
+input::placeholder {
+    color: #7f91a5;
+}
+
+input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 13px rgba(57, 245, 255, .22);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 48px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 13px;
+    transform: translateY(-50%);
+    padding: 4px;
+    border: none;
+    background: transparent;
+    color: #b8d6e6;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: var(--cyan);
+}
+
+.create-account {
+    width: 100%;
+    margin-top: 20px;
+    padding: 13px;
+    border: 1px solid rgba(57, 245, 255, .65);
+    border-radius: 28px;
+    color: #eaffff;
+    background: linear-gradient(
+        110deg,
+        rgba(15, 83, 111, .9),
+        rgba(18, 66, 91, .95)
+    );
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform .3s, box-shadow .3s;
+}
+
+.create-account:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 15px rgba(57, 245, 255, .3),
+        0 0 30px rgba(57, 245, 255, .12);
+}
+
+.login-link {
+    margin: 15px 0 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+a {
+    display: inline-block;
+    margin-top: 5px;
+    color: var(--cyan);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+a:hover {
+    text-shadow: 0 0 12px var(--cyan);
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .register-card {
+        padding: 20px 18px;
+    }
+
+    .neon-circle {
+        width: 145vw;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+}
+
+@media (max-height: 760px) and (min-width: 501px) {
+    .register-card { padding-top: 12px; padding-bottom: 12px; }
+    .icon { width: 44px; height: 44px; margin-bottom: 7px; }
+    .subtitle { margin-bottom: 10px; }
+    label { margin-top: 8px; }
+    input { padding-top: 9px; padding-bottom: 9px; }
+    .create-account { margin-top: 14px; padding: 10px; }
+    .login-link { margin-top: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="neon-circle" aria-hidden="true"></div>
+
+<main class="register-card">
+
+    <div class="icon">✨</div>
+
+    <h1>CREATE ACCOUNT</h1>
+
+    <p class="subtitle">
+        Join us to discover your ideal career with AI.
+    </p>
+
+    <form method="POST"
+          action="{{ url_for('register') }}"
+          id="registerForm">
+
+        <label for="name">Full Name</label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your full name"
+            autocomplete="name"
+            required
+        >
+
+        <label for="email">Email Address</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email address"
+            autocomplete="email"
+            required
+        >
+
+        <label for="phone">Phone Number</label>
+        <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="Enter 10-digit phone number"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+        >
+
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('password', this)"
+                aria-label="Show password"
+                aria-pressed="false"
+            >👁</button>
+        </div>
+
+        <label for="confirm_password">Confirm Password</label>
+        <div class="password-wrapper">
+            <input
+                type="password"
+                id="confirm_password"
+                name="confirm_password"
+                placeholder="Re-enter your password"
+                minlength="8"
+                autocomplete="new-password"
+                required
+            >
+            <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePassword('confirm_password', this)"
+                aria-label="Show confirm password"
+                aria-pressed="false"
+            >👁</button>
+        </div>
+
+        <button type="submit" class="create-account">
+            CREATE ACCOUNT →
+        </button>
+
+    </form>
+
+    <p class="login-link">
+        Already have an account?<br>
+        <a href="{{ url_for('login') }}">Login here →</a>
+    </p>
+
+</main>
+
+<script>
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const isHidden = input.type === "password";
+
+    input.type = isHidden ? "text" : "password";
+    button.textContent = isHidden ? "🙈" : "👁";
+
+    button.setAttribute(
+        "aria-label",
+        isHidden ? "Hide password" : "Show password"
+    );
+
+    button.setAttribute("aria-pressed", String(isHidden));
+}
+
+document.getElementById("registerForm")
+    .addEventListener("submit", function(event) {
+        const password =
+            document.getElementById("password").value;
+
+        const confirmPassword =
+            document.getElementById("confirm_password").value;
+
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            alert("Passwords do not match. Please try again.");
+            document.getElementById("confirm_password").focus();
+        }
+    });
+</script>
+
+</body>
+</html>

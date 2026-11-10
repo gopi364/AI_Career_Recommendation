@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwriting Notes</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 35px 20px;
+            color: white;
+            background: linear-gradient(135deg, #080d27, #251044, #073b48);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #5eead4;
+            margin-bottom: 12px;
+            font-size: 32px;
+        }
+
+        .intro {
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .notes-card {
+            padding: 25px;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+        }
+
+        .notes-card h2 {
+            color: #5eead4;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .notes-card p {
+            color: #e2e8f0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 9px;
+            background: #5eead4;
+            color: #071526;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .button:hover {
+            background: #99f6e4;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #5eead4;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 24px 14px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .notes-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>📝 Handwriting Notes</h1>
+
+        <p class="intro">
+            Access your handwritten programming notes in one place.
+            Select a subject to open its PDF.
+        </p>
+
+        <div class="notes-card">
+            <h2>🐍 Python Handwritten Notes</h2>
+
+            <p>
+                Study Python programming from the basics, including variables,
+                data types, input and output, operators, loops, patterns,
+                file handling and exception handling.
+            </p>
+
+            <a
+                class="button"
+                href="{{ url_for('open_handwriting_pdf', filename='Python hand written notes.pdf') }}"
+                target="_blank"
+                rel="noopener noreferrer">
+                📄 Open Python PDF
+            </a>
+        </div>
+                <div class="notes-card">
+            <h2>⚙️ C++ Programming Notes</h2>
+
+            <p>
+                Learn C++ from basic to advanced concepts, including
+                variables, data types, operators, decision making,
+                loops, functions, arrays, strings, pointers, OOP,
+                inheritance, polymorphism, STL, exception handling
+                and file handling.
+            </p>
+
+            <a
+                class="button"
+                href="{{ url_for('open_handwriting_pdf', filename='C++ programming.pdf') }}"
+                target="_blank"
+                rel="noopener noreferrer">
+                📄 Open C++ PDF
+            </a>
+        </div>
+                <div class="notes-card">
+            <h2>📊 Data Analysis Notes</h2>
+
+            <p>
+                Learn data analysis basics, Excel, SQL queries,
+                Python Pandas, data cleaning, exploratory data
+                analysis (EDA), data visualization using Matplotlib,
+                and machine learning fundamentals.
+            </p>
+
+            <a
+                class="button"
+                href="{{ url_for('open_handwriting_pdf', filename='Data analysis.pdf') }}"
+                target="_blank"
+                rel="noopener noreferrer">
+                📄 Open Data Analysis PDF
+            </a>
+        </div>
+        <a class="back-link" href="{{ url_for('home') }}">
+            ← Back to Dashboard
+        </a>
+       
+        <div class="notes-card">
+            <h2>☕ Java Handwritten Notes</h2>
+
+            <p>
+                Learn Java from beginner to advanced level, including
+                Java basics, variables, data types, operators, control
+                statements, methods, arrays, strings, classes, objects,
+                inheritance, polymorphism, exception handling,
+                collections, multithreading, file handling and JDBC.
+            </p>
+
+            <a
+                class="button"
+                href="{{ url_for('open_handwriting_pdf', filename='Java Full Notes.pdf') }}"
+                target="_blank"
+                rel="noopener noreferrer">
+                📄 Open Java PDF
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

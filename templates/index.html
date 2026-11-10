@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Career Recommendation System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: #f8fafc;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.30), transparent 34%),
+                radial-gradient(circle at 90% 85%, rgba(20, 184, 166, 0.25), transparent 35%),
+                linear-gradient(135deg, #10152e, #172b4d, #10152e);
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        .header,
+        .input-card,
+        .section-card {
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .header {
+            padding: 38px 30px;
+            border-radius: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #5eead4;
+            font-size: 36px;
+            line-height: 1.3;
+        }
+
+        .header p {
+            margin-top: 14px;
+            color: #d0d9ee;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .input-card {
+            margin-top: 24px;
+            padding: 30px;
+            border-radius: 22px;
+        }
+
+        .input-card label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .input-card input {
+            width: 100%;
+            padding: 15px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.09);
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .input-card input::placeholder {
+            color: #c1cde1;
+        }
+
+        .input-card input:focus {
+            border-color: #5eead4;
+            box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12);
+        }
+
+        .hint {
+            margin-top: 10px;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0d9488, #14b8a6);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.30);
+        }
+
+        .result {
+            margin-top: 24px;
+        }
+
+        .career-card {
+            padding: 30px;
+            border-radius: 22px;
+            background: linear-gradient(
+                135deg,
+                rgba(13, 148, 136, 0.88),
+                rgba(15, 118, 110, 0.78)
+            );
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+            overflow-wrap: anywhere;
+        }
+
+        .career-card h2 {
+            margin-top: 0;
+            margin-bottom: 14px;
+            font-size: 28px;
+        }
+
+        .career-card p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .courses-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #14b8a6, #6366f1);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .courses-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .match-score {
+            margin-top: 18px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #a7f3d0, #ffffff);
+            transition: width 0.8s ease;
+        }
+
+        .section-card {
+            margin-top: 20px;
+            padding: 25px 30px;
+            border-radius: 20px;
+            transition: background 0.25s, transform 0.25s;
+        }
+
+        .section-card:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-2px);
+        }
+
+        .section-card h3 {
+            margin-bottom: 14px;
+            color: #5eead4;
+            font-size: 21px;
+        }
+
+        .section-card p {
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        li {
+            margin: 12px 0;
+            color: #f1f5f9;
+            font-size: 15px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .missing {
+            color: #fda4af;
+            font-weight: 700;
+        }
+
+        .recommendation {
+            padding: 14px 16px;
+            margin: 12px 0;
+            border: 1px solid rgba(94, 234, 212, 0.20);
+            border-left: 4px solid #5eead4;
+            border-radius: 12px;
+            background: rgba(94, 234, 212, 0.08);
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin: 28px 0;
+            padding: 18px;
+            color: #b9c5dc;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .header {
+                padding: 28px 18px;
+            }
+
+            .header h1 {
+                font-size: 27px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .input-card,
+            .career-card,
+            .section-card {
+                padding: 22px 18px;
+            }
+
+            .career-card h2 {
+                font-size: 24px;
+            }
+
+            .section-card h3 {
+                font-size: 19px;
+            }
+
+            .courses-btn {
+                padding: 11px 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header class="header">
+            <h1>AI Career Recommendation System</h1>
+            <p>
+                Discover suitable career paths and identify the skills
+                you need to improve using Artificial Intelligence.
+            </p>
+        </header>
+
+        <section class="input-card">
+            <form method="POST">
+                <label for="skills">Enter Your Skills</label>
+
+                <input
+                    type="text"
+                    id="skills"
+                    name="skills"
+                    placeholder="Example: python, sql, excel, power bi"
+                    required
+                >
+
+                <div class="hint">
+                    Enter your skills separated by commas.
+                </div>
+
+                <button type="submit" class="btn">
+                    Analyze My Career
+                </button>
+            </form>
+        </section>
+
+        {% if result %}
+        <section class="result">
+
+            <div class="career-card">
+                <h2>🤖 Recommended Career</h2>
+                <h2>{{ result.career }}</h2>
+
+                <a href="{{ url_for('courses') }}" class="courses-btn">
+                    📚 Explore Courses
+                </a>
+
+                <p class="match-score">
+                    Career Match: {{ result.match_percentage }}%
+                </p>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        data-width="{{ result.match_percentage }}"
+                    ></div>
+                </div>
+
+                <p>
+                    Based on your skills, our AI model recommends
+                    this career path.
+                </p>
+            </div>
+
+            <div class="section-card">
+                <h3>Your Skills</h3>
+                <ul>
+                    {% for skill in result.student_skills %}
+                    <li>✓ {{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section-card">
+                <h3>Required Skills</h3>
+                <ul>
+                    {% for skill in result.required_skills %}
+                    <li>✓ {{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="section-card">
+                <h3>Skill Gap</h3>
+
+                {% if result.missing_skills %}
+                <ul>
+                    {% for skill in result.missing_skills %}
+                    <li class="missing">⚠ {{ skill }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>🎉 You have all the required skills!</p>
+                {% endif %}
+            </div>
+
+            <div class="section-card">
+                <h3>Personalized Skill Recommendations</h3>
+
+                {% if result.recommendations %}
+                    {% for recommendation in result.recommendations %}
+                    <div class="recommendation">
+                        → {{ recommendation }}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No additional recommendations at this time.</p>
+                {% endif %}
+            </div>
+
+        </section>
+        {% endif %}
+
+        <footer class="footer">
+            AI-Powered Career Guidance System
+        </footer>
+
+    </div>
+
+    <script>
+        document.querySelectorAll(".progress-fill").forEach(function (bar) {
+            const width = Number(bar.dataset.width);
+
+            if (Number.isFinite(width)) {
+                bar.style.width = Math.max(0, Math.min(100, width)) + "%";
+            }
+        });
+    </script>
+</body>
+</html>

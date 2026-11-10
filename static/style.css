@@ -1,0 +1,129 @@
+
+/* Glassmorphism AI Career Website */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px 20px;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #f8fafc;
+
+    background:
+        radial-gradient(circle at 15% 20%, #5540a8 0, transparent 35%),
+        radial-gradient(circle at 85% 75%, #087f8c 0, transparent 35%),
+        linear-gradient(135deg, #10152e, #182b48, #10152e);
+
+    background-attachment: fixed;
+}
+
+/* Main cards */
+.container,
+header,
+section,
+.card,
+form {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #ffffff;
+}
+
+/* Input fields */
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 13px 15px;
+    margin: 8px 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #cbd5e1;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #5eead4;
+    box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.15);
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(20, 184, 166, 0.3);
+}
+
+/* Glass cards hover */
+.container:hover,
+.card:hover,
+section:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transition: border-color 0.25s ease;
+}
+
+/* Links */
+a {
+    color: #5eead4;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Skill badges */
+.skill-badge {
+    display: inline-block;
+    padding: 7px 12px;
+    margin: 4px;
+    border-radius: 20px;
+    background: rgba(94, 234, 212, 0.13);
+    border: 1px solid rgba(94, 234, 212, 0.3);
+    color: #ccfbf1;
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+    body {
+        padding: 15px 10px;
+    }
+
+    .container,
+    header,
+    section,
+    .card,
+    form {
+        border-radius: 16px;
+    }
+}

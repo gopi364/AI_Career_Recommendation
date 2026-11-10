@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Programming Notes</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 35px 20px;
+            color: white;
+            background: linear-gradient(135deg, #080d27, #251044, #073b48);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #5eead4;
+            margin-bottom: 12px;
+        }
+
+        .intro {
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .note-card {
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.08);
+        }
+         .note-card {
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+}
+
+/* Ikkada new CSS code paste cheyyali */
+
+h2 {
+    color: #5eead4;
+    font-size: 21px;
+    margin-bottom: 14px;
+}
+        h2 {
+            color: #5eead4;
+            font-size: 21px;
+            margin-bottom: 14px;
+        }
+
+        p, li {
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        ul {
+            padding-left: 22px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            background: #0b1220;
+            color: #99f6e4;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 15px 0;
+            color: #5eead4;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>🐍 Python Programming Notes</h1>
+        <p class="intro">
+            Learn Python step by step with simple explanations and examples.
+        </p>
+        
+<div class="syllabus">
+    <h2>Complete Python Learning Syllabus</h2>
+
+    <div class="syllabus-item">
+        <h3>01. Python Basics</h3>
+        <p>Introduction, installation, VS Code, variables, data types, input/output.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>02. Core Programming</h3>
+        <p>Operators, type conversion, strings, conditions, loops.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>03. Data Structures</h3>
+        <p>Lists, tuples, sets, dictionaries, comprehensions.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>04. Functions</h3>
+        <p>Parameters, return, lambda, recursion, modules, packages.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>05. Practical Python</h3>
+        <p>File handling, CSV, JSON, exceptions, debugging.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>06. Advanced Python</h3>
+        <p>OOP, inheritance, iterators, generators, decorators, regex.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>07. Database and Web</h3>
+        <p>SQL basics, SQLite, APIs, Flask, HTTP.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>08. Data Analytics</h3>
+        <p>NumPy, Pandas, Matplotlib, data cleaning.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>09. AI and Machine Learning</h3>
+        <p>Scikit-learn, training models, testing, evaluation.</p>
+    </div>
+
+    <div class="syllabus-item">
+        <h3>10. Professional Skills</h3>
+        <p>Git, testing, algorithms, deployment, projects.</p>
+    </div>
+</div>
+
+        <div class="note-card">
+            <h2>1. What is Python?</h2>
+            <p>
+                Python is a high-level programming language used in web development,
+                automation, data analysis, artificial intelligence and machine learning.
+            </p>
+        </div>
+
+        <div class="note-card">
+            <h2>2. Variables and Data Types</h2>
+            <p>Variables store values. Common data types include integers, floats, strings and booleans.</p>
+            <pre>name = "Gopi"
+age = 21
+percentage = 85.5
+is_student = True
+
+print(name)
+print(age)</pre>
+        </div>
+
+        <div class="note-card">
+            <h2>3. Conditional Statements</h2>
+            <p>Use if and else to make decisions in a program.</p>
+            <pre>marks = 75
+
+if marks >= 40:
+    print("Pass")
+else:
+    print("Fail")</pre>
+        </div>
+
+        <div class="note-card">
+            <h2>4. Loops</h2>
+            <p>Loops repeat a block of code. Python provides for and while loops.</p>
+            <pre>for number in range(1, 6):
+    print(number)</pre>
+        </div>
+
+        <div class="note-card">
+            <h2>5. Functions</h2>
+            <p>Functions organize reusable code.</p>
+            <pre>def add(a, b):
+    return a + b
+
+result = add(10, 20)
+print(result)</pre>
+        </div>
+
+        <div class="note-card">
+            <h2>6. Lists</h2>
+            <p>A list stores multiple items in a single variable.</p>
+            <pre>skills = ["Python", "SQL", "Excel"]
+
+for skill in skills:
+    print(skill)</pre>
+        </div>
+
+        <a class="back-link" href="{{ url_for('notes') }}">← Back to Learning Notes</a>
+        <br>
+        <a class="back-link" href="{{ url_for('courses') }}">← Back to Courses</a>
+
+    </div>
+</body>
+</html>

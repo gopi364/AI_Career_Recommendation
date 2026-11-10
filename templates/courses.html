@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Learning Hub</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            background: linear-gradient(135deg, #080d27, #251044, #073b48);
+        }
+
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            min-height: 100vh;
+            padding: 28px 16px;
+            flex-shrink: 0;
+            background: #101b30;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar h3 {
+            color: #8ba9ce;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            margin: 8px 12px 18px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            padding: 13px 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: #5eead4;
+            background: #1c3c50;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 40px 28px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: clamp(27px, 4vw, 38px);
+            margin-bottom: 12px;
+            color: #5eead4;
+        }
+
+        .header p {
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        .course-count {
+            margin-top: 12px;
+            color: #5eead4;
+            font-size: 14px;
+        }
+
+        .search-box {
+            display: block;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            outline: none;
+            color: white;
+            background: rgba(255,255,255,0.08);
+            font-size: 15px;
+        }
+
+        .search-box:focus {
+            border-color: #5eead4;
+        }
+
+        .search-box::placeholder {
+            color: #b8c3d4;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 0;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: #5eead4;
+        }
+
+        .course-icon {
+            font-size: 36px;
+            margin-bottom: 18px;
+        }
+
+        .course-card h2 {
+            font-size: 21px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .course-card p {
+            color: #d1d5db;
+            line-height: 1.7;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .skills {
+            color: #5eead4;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: auto;
+            margin-bottom: 20px;
+        }
+
+        .course-button {
+            display: inline-block;
+            text-decoration: none;
+            color: #071526;
+            background: #5eead4;
+            padding: 13px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .course-button:hover {
+            background: #99f6e4;
+            transform: translateY(-2px);
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            color: #d1d5db;
+            margin: 35px 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 35px;
+            color: #5eead4;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1150px) {
+            .course-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 850px) {
+            .course-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .sidebar {
+                width: 210px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .app-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 28px 16px;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="app-layout">
+
+    <aside class="sidebar">
+        <h3>LEARNING HUB</h3>
+
+        <a href="{{ url_for('home') }}">🏠 Dashboard</a>
+        <a href="{{ url_for('home') }}">💼 Career</a>
+        <a href="{{ url_for('courses') }}" class="active">📚 Courses</a>
+        <a href="{{ url_for('notes') }}">📝 Notes</a>
+        
+        <a href="/handwriting-notes">📖 Handwriting Notes</a>
+
+        <h3>MY LEARNING</h3>
+        <a href="#course-grid">✍️ Practice Quiz</a>
+        <a href="#course-grid">📈 My Progress</a>
+    </aside>
+
+    <main class="main-content">
+        <div class="container">
+
+            <header class="header">
+                <h1>🚀 Career Learning Hub</h1>
+                <p>Explore technology courses, learn new skills, and build your future.</p>
+                <div class="course-count">
+                    Discover courses from beginner to advanced level.
+                </div>
+            </header>
+
+            <input
+                type="search"
+                id="courseSearch"
+                class="search-box"
+                placeholder="🔍 Search courses... Python, Java, AWS..."
+                aria-label="Search courses">
+
+            <div class="course-grid" id="course-grid">
+
+                <!-- PROGRAMMING LANGUAGES -->
+
+                <div class="course-card">
+                    <div class="course-icon">💻</div>
+                    <h2>C Programming</h2>
+                    <p>Learn programming fundamentals, variables, loops, functions, arrays, pointers, and memory management.</p>
+                    <div class="skills">Skills: C, Logic Building, Pointers</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=C+programming+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">⚙️</div>
+                    <h2>C++ Programming</h2>
+                    <p>Study object-oriented programming, classes, inheritance, polymorphism, and STL.</p>
+                    <div class="skills">Skills: C++, OOP, STL</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=C%2B%2B+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">☕</div>
+                    <h2>Java Programming</h2>
+                    <p>Learn Java syntax, object-oriented programming, collections, exceptions, and practical applications.</p>
+                    <div class="skills">Skills: Java, OOP, Collections</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Java+programming+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🐍</div>
+                    <h2>Python Programming</h2>
+                    <p>Learn variables, conditions, loops, functions, modules, files, and Python projects.</p>
+                    <div class="skills">Skills: Python, Functions, Problem Solving</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Python+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- DATA STRUCTURES -->
+
+                <div class="course-card">
+                    <div class="course-icon">🧩</div>
+                    <h2>DSA</h2>
+                    <p>Understand arrays, linked lists, stacks, queues, trees, graphs, sorting, and searching.</p>
+                    <div class="skills">Skills: Data Structures, Algorithms</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Data+Structures+and+Algorithms+full+course" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- WEB DEVELOPMENT -->
+
+                <div class="course-card">
+                    <div class="course-icon">🌐</div>
+                    <h2>HTML</h2>
+                    <p>Create web page structures using elements, forms, tables, semantic tags, and multimedia.</p>
+                    <div class="skills">Skills: HTML5, Forms, Web Structure</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=HTML+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🎨</div>
+                    <h2>CSS</h2>
+                    <p>Design attractive websites using selectors, Flexbox, Grid, animations, and responsive layouts.</p>
+                    <div class="skills">Skills: CSS3, Flexbox, Grid</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=CSS+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">✨</div>
+                    <h2>JavaScript</h2>
+                    <p>Learn variables, functions, arrays, objects, DOM manipulation, and asynchronous programming.</p>
+                    <div class="skills">Skills: JavaScript, DOM, ES6</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=JavaScript+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">⚛️</div>
+                    <h2>React</h2>
+                    <p>Build interactive user interfaces using components, props, state, hooks, and routing.</p>
+                    <div class="skills">Skills: React, Hooks, Components</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=React+JS+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">▲</div>
+                    <h2>Next.js</h2>
+                    <p>Learn modern React application development, routing, rendering, and server-side features.</p>
+                    <div class="skills">Skills: Next.js, React, Routing</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Next.js+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🟢</div>
+                    <h2>Node.js</h2>
+                    <p>Create server-side applications and APIs using Node.js, modules, and asynchronous code.</p>
+                    <div class="skills">Skills: Node.js, APIs, Backend</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Node.js+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🚀</div>
+                    <h2>Full Stack Development</h2>
+                    <p>Combine frontend, backend, databases, APIs, and deployment to build complete web applications.</p>
+                    <div class="skills">Skills: HTML, CSS, JavaScript, Backend, SQL</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Full+Stack+Web+Development+complete+course" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- DATABASES -->
+
+                <div class="course-card">
+                    <div class="course-icon">🗄️</div>
+                    <h2>DBMS</h2>
+                    <p>Understand database design, keys, relationships, normalization, and transactions.</p>
+                    <div class="skills">Skills: DBMS, ER Models, Normalization</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=DBMS+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📊</div>
+                    <h2>SQL</h2>
+                    <p>Practice SELECT, WHERE, JOIN, GROUP BY, subqueries, and database operations.</p>
+                    <div class="skills">Skills: SQL, Joins, Queries</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=SQL+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🐬</div>
+                    <h2>MySQL</h2>
+                    <p>Learn to create databases, manage tables, write queries, and work with relational data.</p>
+                    <div class="skills">Skills: MySQL, SQL, Database Design</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=MySQL+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🐘</div>
+                    <h2>PostgreSQL</h2>
+                    <p>Explore relational database management, advanced queries, indexes, and constraints.</p>
+                    <div class="skills">Skills: PostgreSQL, SQL, Indexes</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=PostgreSQL+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🍃</div>
+                    <h2>MongoDB</h2>
+                    <p>Work with document databases, collections, CRUD operations, and aggregation.</p>
+                    <div class="skills">Skills: MongoDB, NoSQL, CRUD</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=MongoDB+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🔴</div>
+                    <h2>Redis</h2>
+                    <p>Understand in-memory data storage, caching, data types, and common Redis use cases.</p>
+                    <div class="skills">Skills: Redis, Caching, Data Storage</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Redis+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- DATA AND AI -->
+
+                <div class="course-card">
+                    <div class="course-icon">📈</div>
+                    <h2>Data Analytics</h2>
+                    <p>Learn data cleaning, analysis, visualization, and reporting for business decisions.</p>
+                    <div class="skills">Skills: Excel, SQL, Power BI, Statistics</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Data+Analytics+complete+course+Excel+SQL+Power+BI" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📉</div>
+                    <h2>Data Science</h2>
+                    <p>Explore data analysis, statistics, visualization, feature engineering, and predictive modelling.</p>
+                    <div class="skills">Skills: Python, Pandas, Statistics</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Data+Science+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🤖</div>
+                    <h2>Machine Learning</h2>
+                    <p>Study supervised and unsupervised learning, model evaluation, and ML projects.</p>
+                    <div class="skills">Skills: Python, Scikit-learn, ML</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Machine+Learning+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🧠</div>
+                    <h2>Artificial Intelligence</h2>
+                    <p>Learn AI fundamentals, search techniques, intelligent systems, and introductory generative AI.</p>
+                    <div class="skills">Skills: AI, Python, Intelligent Systems</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Artificial+Intelligence+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- CYBERSECURITY AND OPERATING SYSTEMS -->
+
+                <div class="course-card">
+                    <div class="course-icon">🔐</div>
+                    <h2>Cybersecurity</h2>
+                    <p>Understand security fundamentals, common threats, authentication, and defensive practices.</p>
+                    <div class="skills">Skills: Security, Networking, Risk Awareness</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Cybersecurity+fundamentals+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🖥️</div>
+                    <h2>Operating Systems</h2>
+                    <p>Learn processes, threads, memory management, scheduling, and file systems.</p>
+                    <div class="skills">Skills: OS, Processes, Memory</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Operating+Systems+full+course+computer+science" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- CLOUD COMPUTING -->
+
+                <div class="course-card">
+                    <div class="course-icon">☁️</div>
+                    <h2>Cloud Computing</h2>
+                    <p>Understand cloud services, deployment models, virtual machines, and storage.</p>
+                    <div class="skills">Skills: Cloud, Virtualization, Networking</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Cloud+Computing+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🟠</div>
+                    <h2>AWS</h2>
+                    <p>Get started with cloud infrastructure, EC2, S3, IAM, and core AWS services.</p>
+                    <div class="skills">Skills: AWS, EC2, S3, IAM</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=AWS+Cloud+Practitioner+full+course" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🔷</div>
+                    <h2>Microsoft Azure</h2>
+                    <p>Learn cloud concepts, Azure services, virtual machines, storage, and identity basics.</p>
+                    <div class="skills">Skills: Azure, Cloud, Virtual Machines</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Microsoft+Azure+fundamentals+AZ-900+full+course" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🌈</div>
+                    <h2>Google Cloud</h2>
+                    <p>Explore Google Cloud services, compute, storage, networking, and cloud fundamentals.</p>
+                    <div class="skills">Skills: GCP, Cloud, Storage</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Google+Cloud+fundamentals+full+course" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- DEVOPS AND DEVELOPER TOOLS -->
+
+                <div class="course-card">
+                    <div class="course-icon">🐧</div>
+                    <h2>Linux</h2>
+                    <p>Practice terminal commands, files, permissions, processes, and shell scripting.</p>
+                    <div class="skills">Skills: Linux, Shell, Permissions</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Linux+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🌿</div>
+                    <h2>Git</h2>
+                    <p>Learn version control, commits, branches, merging, and resolving conflicts.</p>
+                    <div class="skills">Skills: Git, Branching, Version Control</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Git+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🐙</div>
+                    <h2>GitHub</h2>
+                    <p>Host repositories, manage projects, collaborate, and understand pull requests.</p>
+                    <div class="skills">Skills: GitHub, Repositories, Collaboration</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=GitHub+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">🐳</div>
+                    <h2>Docker</h2>
+                    <p>Learn containers, images, Dockerfiles, volumes, and container networking.</p>
+                    <div class="skills">Skills: Docker, Containers, Images</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Docker+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">☸️</div>
+                    <h2>Kubernetes</h2>
+                    <p>Understand pods, deployments, services, scaling, and container orchestration.</p>
+                    <div class="skills">Skills: Kubernetes, Pods, Deployments</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Kubernetes+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <!-- OFFICE TOOLS -->
+
+                <div class="course-card">
+                    <div class="course-icon">📋</div>
+                    <h2>MS Office</h2>
+                    <p>Learn document creation, presentations, spreadsheets, and everyday productivity tools.</p>
+                    <div class="skills">Skills: Word, PowerPoint, Office</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Microsoft+Office+complete+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-icon">📊</div>
+                    <h2>Microsoft Excel</h2>
+                    <p>Practice formulas, functions, sorting, filtering, charts, PivotTables, and data analysis.</p>
+                    <div class="skills">Skills: Excel, Formulas, PivotTables</div>
+                    <a class="course-button" href="https://www.youtube.com/results?search_query=Microsoft+Excel+full+course+for+beginners" target="_blank" rel="noopener noreferrer">Watch Lessons ↗</a>
+                </div>
+
+            </div>
+
+            <p class="no-results" id="noResults">No courses found. Try another search.</p>
+
+            <div style="text-align:center;">
+                <a class="back-link" href="{{ url_for('home') }}">
+                    ← Back to Career Dashboard
+                </a>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    const searchInput = document.getElementById("courseSearch");
+    const courseCards = document.querySelectorAll(".course-card");
+    const noResults = document.getElementById("noResults");
+
+    searchInput.addEventListener("input", function () {
+        const searchText = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        courseCards.forEach(function (card) {
+            const matches = card.textContent.toLowerCase().includes(searchText);
+            card.style.display = matches ? "flex" : "none";
+
+            if (matches) {
+                visibleCount++;
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    });
+</script>
+
+</body>
+</html>
